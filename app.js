@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
 const Todo = require('./models/todo')
+const todo = require('./models/todo')
 const app = express()
 const port = 3000
 
@@ -45,6 +46,15 @@ app.post('/todos', (req, res) => {
   const name = req.body.name // 從 req.body 拿出表單裡的 name 資料
   return Todo.create({ name }) // 存入資料庫
     .then(() => res.redirect('/')) // 新增完成後導回首頁
+    .catch(error => console.log(error))
+})
+
+// Detail route
+app.get('/todos/:id', (req, res) => {
+  const id = req.params.id
+  return Todo.findById(id)
+    .lean()
+    .then(todo => res.render('detail', { todo }))
     .catch(error => console.log(error))
 })
 
