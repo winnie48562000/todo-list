@@ -6,6 +6,10 @@
     {{this.name}}
     <a href="./todos/{{ this._id }}">detail</a>
     <a href="./todos/{{ this._id }}/edit">edit</a>
+    <!-- Delete 要發出 POST 請求，而 <a> 只能發 GET 請求，所以這裡需要用 <form> -->
+    <form action="./todos/{{ this._id }}/delete" method="POST" style="display: inline">
+      <button type="submit">delete</button>
+    </form>
   </li>
   {{/each}}
 </ul>
