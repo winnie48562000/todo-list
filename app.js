@@ -69,10 +69,12 @@ app.get('/todos/:id/edit', (req, res) => {
 
 app.post('/todos/:id/edit', (req, res) => {
   const id = req.params.id
-  const name = req.body.name
+  const { name, isDone } = req.body // 解構賦值
+  console.log(req.body)
   return Todo.findById(id)
     .then(todo => {
       todo.name = name
+      todo.isDone = isDone === 'on' // = true
       return todo.save() // 因為儲存資料，該步驟不使用 lean()
     })
     .then(() => res.redirect(`/todos/${id}`))
@@ -89,5 +91,5 @@ app.post('/todos/:id/delete', (req, res) => {
 })
 
 app.listen(port, () => {
-  console.log(`App is running on https://localhost:${port}`)
+  console.log(`App is running on http://localhost:${port}`)
 })
